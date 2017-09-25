@@ -32,14 +32,14 @@ var ColorChanger = (function () {
 	}
 
 	/**
-	 * randomly generates a colorlist of hexidecimal characters
+	 * randomly generates a colorlist  of hexidecimal characters
 	 * and changes the background color of the document.body
 	 * to the next color in the list every second
 	 */
 	function randomize() {
 		var colorList = _generateColorList(10);
 
-		colorList.forEach(function(color, index){
+		Object.keys(colorList).forEach(function(color, index){
 			setTimeout(function(){
 				// change background color
 				document.body.style.backgroundColor = color;
@@ -62,13 +62,16 @@ var ColorChanger = (function () {
 
 	// helpers
 	function _generateColorList(length){
-		var colors = [];
-		while(colors.length < length){
+		var colors = {};
+		while(Object.keys(colors).length < length){
 			var randColor = _generateHexidecimal();
 
-			// only insert if the hex value isn't already in the list
-			if(colors.indexOf(randColor) === -1){
-				colors.push(randColor);
+			//if colors[randColor] isnt already a key. make it one
+			if(!colors[randColor]){
+				colors[randColor] = true; // value of true, to hold the place
+			}
+			else {
+				console.log('key already found, skipping')
 			}
 		}
 		return colors;
